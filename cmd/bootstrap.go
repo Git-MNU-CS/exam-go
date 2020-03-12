@@ -3,8 +3,8 @@ package cmd
 import (
 	"log"
 
-	"github.com/goexam"
-	"github.com/goexam/internal/services"
+	"github.com/MNU/exam-go"
+	"github.com/MNU/exam-go/internal/services"
 )
 
 type bootStrap struct {
@@ -25,9 +25,9 @@ func newBootStrap(opts *ApplicationOps) *bootStrap {
 		log.Panic(err)
 	}
 	classSvc := services.NewClassService(db)
-	userSvc := services.NewUserService(db, classSvc)
+	userSvc := services.NewUserService(db)
 	courseSvc := services.NewCourseService(db)
-	problemSvc := services.NewProblemService(db, courseSvc)
+	problemSvc := services.NewProblemService(db)
 	contentAuthSvc := services.NewContentAuthService(db)
 	contentProblemSvc := services.NewContentProblemService(db, problemSvc)
 	contentSvc := services.NewContentService(db, problemSvc, contentProblemSvc)

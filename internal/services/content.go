@@ -1,7 +1,7 @@
 package services
 
 import (
-	"github.com/goexam"
+	"github.com/MNU/exam-go"
 )
 
 // ContentService is
@@ -44,13 +44,13 @@ func (c *ContentService) Create(content *goexam.Content) (*goexam.Content, error
 }
 
 // Delete is 删除比赛
-func (c *ContentService) Delete(id uint) (err error) {
+func (c *ContentService) Delete(ID uint) error {
 	content := new(goexam.Content)
-	err = c.db.Where("id = ?", id).Delete(content).Error
+	err := c.db.Where("id = ?", ID).Delete(content).Error
 	if err != nil {
 		return err
 	}
-	err = c.contentProblemService.DeleteByContentID(id)
+	err = c.contentProblemService.DeleteByContentID(ID)
 	return err
 }
 
@@ -96,11 +96,11 @@ func (c *ContentService) GetList(filter *goexam.ContentFilter) (contentList []*g
 }
 
 // UpdateContentAuth 添加考试权限
-func (c *ContentService) UpdateContentAuth(id uint, authIds []uint) (err error) {
+func (c *ContentService) UpdateContentAuth(id uint, authIds []*uint) (err error) {
 	contentAuth := &goexam.ContentAuth{}
 	for i := 0; i < len(authIds); i++ {
 		contentAuth.ContentID = id
-		contentAuth.UserID = authIds[i]
+		contentAuth.UserID = *authIds[i]
 		contentAuth.ID = 0
 		// err = c.db.Model(contentAuth).Where("content_id = ? and user_id = ?", id, authIds[i]).FirstOrCreate(contentAuth).Error
 		err = c.db.Create(contentAuth).Error

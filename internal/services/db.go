@@ -1,7 +1,7 @@
 package services
 
 import (
-	"github.com/goexam"
+	"github.com/MNU/exam-go"
 	"time"
 
 	"github.com/jinzhu/gorm"

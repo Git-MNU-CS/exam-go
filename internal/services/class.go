@@ -1,7 +1,7 @@
 package services
 
 import (
-	"github.com/goexam"
+	"github.com/MNU/exam-go"
 )
 
 // ClassService is
@@ -19,34 +19,33 @@ func NewClassService(db *DB) *ClassService {
 }
 
 // Create is
-func (c *ClassService) Create(class *goexam.Class) (err error) {
-	err = c.db.Create(class).Error
+func (c *ClassService) Create(class *goexam.Class) error {
+	err := c.db.Create(class).Error
 	return err
 }
 
 // Delete is
-func (c *ClassService) Delete(id uint) (err error) {
-	class := new(goexam.Class)
-	err = c.db.Where("id = ?", id).Delete(class).Error
+func (c *ClassService) Delete(id uint) error {
+	err := c.db.Where("id = ?", id).Delete(&goexam.Class{}).Error
 	return err
 }
 
 // Update is
-func (c *ClassService) Update(class *goexam.Class) (err error) {
-	err = c.db.Model(class).Updates(class).Error
+func (c *ClassService) Update(class *goexam.Class) error {
+	err := c.db.Model(class).Updates(class).Error
 	return err
 }
 
 // Get is
-func (c *ClassService) Get(id uint) (class *goexam.Class, err error) {
-	class = new(goexam.Class)
-	err = c.db.Where("id = ?", id).First(class).Error
+func (c *ClassService) Get(id uint) (*goexam.Class, error) {
+	class := new(goexam.Class)
+	err := c.db.Where("id = ?", id).First(class).Error
 	return class, err
 }
 
 // GetList is
-func (c *ClassService) GetList(classFilter *goexam.ClassFilter) (classes []*goexam.Class, err error) {
-	classes = make([]*goexam.Class, 0)
-	err = c.db.Find(&classes).Limit(classFilter.Limit).Error
+func (c *ClassService) GetList(classFilter *goexam.ClassFilter) ([]*goexam.Class, error) {
+	classes := make([]*goexam.Class, 0)
+	err := c.db.Limit(classFilter.Limit).Find(&classes).Error
 	return classes, err
 }

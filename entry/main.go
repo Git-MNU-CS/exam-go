@@ -1,6 +1,6 @@
 package main
 
-import "github.com/goexam/cmd"
+import "github.com/MNU/exam-go/cmd"
 
 func main() {
 	cmd.Execute()

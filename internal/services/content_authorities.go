@@ -1,7 +1,7 @@
 package services
 
 import (
-	"github.com/goexam"
+	"github.com/MNU/exam-go"
 )
 
 // ContentAuthService is
@@ -38,15 +38,15 @@ func (c *ContentAuthService) Update(auth *goexam.ContentAuth) (err error) {
 }
 
 // Get is
-func (c *ContentAuthService) Get(id uint) (auth *goexam.ContentAuth, err error) {
-	auth = new(goexam.ContentAuth)
-	err = c.db.Where("id = ?", id).First(auth).Error
+func (c *ContentAuthService) Get(id uint) (*goexam.ContentAuth, error) {
+	auth := new(goexam.ContentAuth)
+	err := c.db.Where("id = ?", id).First(auth).Error
 	return auth, err
 }
 
 // GetByUID is
-func (c *ContentAuthService) GetByUID(userID uint) (authes []*goexam.ContentAuth, err error) {
-	authes = make([]*goexam.ContentAuth, 0)
-	err = c.db.Where("user_id = ?", userID).Find(authes).Error
+func (c *ContentAuthService) GetByUID(userID uint) ([]*goexam.ContentAuth, error) {
+	authes := make([]*goexam.ContentAuth, 0)
+	err := c.db.Where("user_id = ?", userID).Find(authes).Error
 	return authes, err
 }

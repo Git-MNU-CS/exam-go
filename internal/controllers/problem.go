@@ -4,9 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/goexam/internal/models"
-
-	"github.com/goexam"
+	"github.com/MNU/exam-go"
 	"github.com/labstack/echo"
 )
 
@@ -66,9 +64,7 @@ func (p *ProblemController) Get(ctx echo.Context) error {
 	if err != nil {
 		return ctx.String(http.StatusBadRequest, "sevide")
 	}
-	problemResponse := new(models.ProblemResponse)
-	problemResponse.BuildResponse(problem)
-	return ctx.JSON(http.StatusOK, problemResponse)
+	return ctx.JSON(http.StatusOK, problem)
 }
 
 // GetList is
@@ -83,9 +79,5 @@ func (p *ProblemController) GetList(ctx echo.Context) error {
 	if err != nil {
 		return ctx.String(http.StatusInternalServerError, "服务错误")
 	}
-	resProblems := make([]models.ProblemResponse, len(problemList))
-	for i := 0; i < len(problemList); i++ {
-		resProblems[i].BuildResponse(problemList[i])
-	}
-	return ctx.JSON(http.StatusOK, resProblems)
+	return ctx.JSON(http.StatusOK, problemList)
 }

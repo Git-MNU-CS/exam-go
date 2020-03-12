@@ -5,7 +5,7 @@ import (
 
 	"os"
 
-	"github.com/goexam/internal/services"
+	"github.com/MNU/exam-go/internal/services"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

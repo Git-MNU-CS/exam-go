@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/goexam"
+	"github.com/MNU/exam-go"
 	"github.com/labstack/echo"
 )
 

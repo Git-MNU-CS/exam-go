@@ -13,13 +13,13 @@ type ContentProblem struct {
 
 // ContentProblemService is
 type ContentProblemService interface {
-	Create(cup *ContentProblem) (err error)
-	Delete(id uint) (err error)
+	Create(cup *ContentProblem) error
+	Delete(id uint) error
 	Update(cup *ContentProblem) (err error)
-	GetContentProblemIds(contentID uint) (problemIds []uint, err error)
-	AddContentProblems(contentID uint, problemIds []uint) (err error)
-	UpdateContentProblems(contentID uint, newProblemIds []uint) (err error)
-	DeleteByContentID(contentID uint) (err error)
+	GetContentProblemIds(contentID uint) ([]*uint, error)
+	AddContentProblems(contentID uint, problemIds []*uint) error
+	UpdateContentProblems(contentID uint, newProblemIds []*uint) error
+	DeleteByContentID(contentID uint) error
 }
 
 // TableName is

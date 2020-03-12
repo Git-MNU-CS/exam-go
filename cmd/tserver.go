@@ -7,7 +7,7 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/goexam/internal/controllers"
+	"github.com/MNU/exam-go/internal/controllers"
 
 	"github.com/labstack/echo"
 

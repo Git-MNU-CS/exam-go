@@ -1,13 +1,10 @@
 package controllers
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 
-	"github.com/goexam/internal/models"
-
-	"github.com/goexam"
+	"github.com/MNU/exam-go"
 	"github.com/labstack/echo"
 )
 
@@ -25,15 +22,6 @@ func NewUserController(userSvc goexam.UserService) *UserController {
 
 // Login is
 func (uc *UserController) Login(ctx echo.Context) error {
-	request := new(models.UserLoginRequest)
-	err := ctx.Bind(request)
-	if err != nil {
-		return ctx.String(http.StatusBadRequest, "参数错误")
-	}
-	err = uc.UserService.Login(request.Username, request.Password)
-	if err != nil {
-		return ctx.JSON(http.StatusInternalServerError, "帐号或密码错误")
-	}
 	return ctx.JSON(http.StatusOK, "登录成功")
 }
 
@@ -96,12 +84,7 @@ func (uc *UserController) Get(ctx echo.Context) error {
 	if err != nil {
 		return ctx.String(http.StatusInternalServerError, "系统错误")
 	}
-	userRes := new(models.UserResponse)
-	log.Println(&userRes)
-	userRes.BuildResponse(user)
-	userRes.BuildResponse(user)
-	log.Println(&userRes)
-	return ctx.JSON(http.StatusOK, userRes)
+	return ctx.JSON(http.StatusOK, user)
 }
 
 // GetList is
@@ -116,9 +99,5 @@ func (uc *UserController) GetList(ctx echo.Context) error {
 	if err != nil {
 		return ctx.String(http.StatusInternalServerError, "系统错误")
 	}
-	resUsers := make([]models.UserResponse, len(userList))
-	for i := 0; i < len(userList); i++ {
-		resUsers[i].BuildResponse(userList[i])
-	}
-	return ctx.JSON(http.StatusOK, resUsers)
+	return ctx.JSON(http.StatusOK, userList)
 }

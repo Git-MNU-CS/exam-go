@@ -1,6 +1,6 @@
 package services
 
-import "github.com/goexam"
+import "github.com/MNU/exam-go"
 
 // RecordService is
 type RecordService struct {

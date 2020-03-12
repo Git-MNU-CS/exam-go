@@ -1,7 +1,7 @@
 package services
 
 import (
-	"github.com/goexam"
+	"github.com/MNU/exam-go"
 )
 
 // CourseService is
