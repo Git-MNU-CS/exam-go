@@ -1,4 +1,4 @@
-package controllers
+package teacher
 
 import (
 	"net/http"
@@ -10,13 +10,15 @@ import (
 
 // ClassController is
 type ClassController struct {
-	classSvc goexam.ClassService
+	classSvc   goexam.ClassService
+	collageSvc goexam.CollageService
 }
 
 // NewClassController is
-func NewClassController(classSvc goexam.ClassService) *ClassController {
+func NewClassController(classSvc goexam.ClassService, collageSvc goexam.CollageService) *ClassController {
 	return &ClassController{
 		classSvc,
+		collageSvc,
 	}
 }
 
@@ -24,6 +26,16 @@ func NewClassController(classSvc goexam.ClassService) *ClassController {
 func (c *ClassController) Create(ctx echo.Context) error {
 	class := new(goexam.Class)
 	err := ctx.Bind(class)
+
+	if err != nil {
+		return ctx.String(http.StatusBadRequest, err.Error())
+	}
+
+	_, err = c.collageSvc.GetByID(ctx, class.CollageID)
+	if err != nil {
+		return ctx.String(http.StatusBadRequest, "collage not found")
+	}
+
 	err = c.classSvc.Create(class)
 	if err != nil {
 		return ctx.String(http.StatusBadGateway, err.Error())
@@ -56,6 +68,14 @@ func (c *ClassController) Update(ctx echo.Context) error {
 	class := new(goexam.Class)
 	err = ctx.Bind(class)
 	class.ID = uint(id)
+
+	if class.CollageID != 0 {
+		_, err = c.collageSvc.GetByID(ctx, class.CollageID)
+		if err != nil {
+			return ctx.String(http.StatusBadRequest, "collage not found")
+		}
+	}
+
 	err = c.classSvc.Update(class)
 	if err != nil {
 		return ctx.String(http.StatusBadGateway, err.Error())
@@ -71,9 +91,14 @@ func (c *ClassController) Get(ctx echo.Context) error {
 		return ctx.String(http.StatusBadRequest, "参数错误")
 	}
 	class, err := c.classSvc.Get(uint(id))
+
+	collage, err := c.collageSvc.GetByID(ctx, class.CollageID)
 	if err != nil {
 		return ctx.String(http.StatusInternalServerError, err.Error())
 	}
+
+	class.Collage = collage
+
 	return ctx.JSON(http.StatusOK, class)
 }
 
@@ -88,5 +113,11 @@ func (c *ClassController) GetList(ctx echo.Context) error {
 	if err != nil {
 		return ctx.String(http.StatusBadRequest, "参数错误")
 	}
+
+	for i := 0; i < len(classList); i++ {
+		collage, _ := c.collageSvc.GetByID(ctx, classList[i].CollageID)
+		classList[i].Collage = collage
+	}
+
 	return ctx.JSON(http.StatusOK, classList)
 }

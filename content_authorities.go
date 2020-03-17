@@ -5,7 +5,7 @@ import (
 )
 
 // ContentAuth is
-type ContentAuth struct {
+type ContentUser struct {
 	gorm.Model
 	ContentID uint `json:"content_id" gorm:"column:content_id"`
 	UserID    uint `json:"user_id" gorm:"column:user_id"`
@@ -16,6 +16,6 @@ type ContentAuthService interface {
 }
 
 // TableName is
-func (u *ContentAuth) TableName() string {
-	return "content_authorities"
+func (u *ContentUser) TableName() string {
+	return "content_users"
 }

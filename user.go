@@ -21,7 +21,7 @@ type (
 	User struct {
 		gorm.Model
 		Role     Role   `json:"role" gorm:"column:role"`
-		Username string `json:"username" gorm:"column:username"`
+		Account  string `json:"account" gorm:"column:account"`
 		Password string `json:"password" gorm:"column:password"`
 		Name     string `json:"name" gorm:"column:name"`
 		ClassID  uint   `json:"class_id" gorm:"column:class_id"`

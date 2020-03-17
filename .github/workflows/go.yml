@@ -1,27 +1,27 @@
 # 暂未使用
-name: Go
-on: [push]
-jobs:
-
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-
-    - name: Set up Go 1.12
-      uses: actions/setup-go@v1
-      with:
-        go-version: 1.12
-      id: go
-    - name: Check out code into the Go module directory
-      uses: actions/checkout@v1
-    - name: test
-      env:
-        ACTION_DEPLOY_KEY: ${{ secrets.D }}
-      run: |
-        mkdir -p ~/.ssh/
-        echo "$ACTION_DEPLOY_KEY" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
-        go build entry/main.go    
-  
+#name: Go
+#on: [push]
+#jobs:
+#
+#  build:
+#    name: Build
+#    runs-on: ubuntu-latest
+#    steps:
+#
+#    - name: Set up Go 1.12
+#      uses: actions/setup-go@v1
+#      with:
+#        go-version: 1.12
+#      id: go
+#    - name: Check out code into the Go module directory
+#      uses: actions/checkout@v1
+#    - name: test
+#      env:
+#        ACTION_DEPLOY_KEY: ${{ secrets.D }}
+#      run: |
+#        mkdir -p ~/.ssh/
+#        echo "$ACTION_DEPLOY_KEY" > ~/.ssh/id_rsa
+#        chmod 600 ~/.ssh/id_rsa
+#        ssh-keyscan github.com >> ~/.ssh/known_hosts
+#        go build entry/main.go
+#

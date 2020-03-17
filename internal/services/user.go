@@ -2,6 +2,7 @@ package services
 
 import (
 	"github.com/MNU/exam-go"
+	"github.com/pkg/errors"
 )
 
 // UserService is
@@ -21,12 +22,32 @@ func NewUserService(db *DB) *UserService {
 // Login is 用户登陆
 func (u *UserService) Login(username string, password string) error {
 	user := new(goexam.User)
-	err := u.db.Where("username = ? and passwd = ?", username, password).Find(user).Error
+	err := u.db.Where("username = ? and password = ?", username, password).Find(user).Error
 	return err
 }
 
 // Create is 添加用户
 func (u *UserService) Create(user *goexam.User) error {
+	if user.Name == "" {
+		return errors.New("name was required")
+	}
+
+	if user.Role == "" {
+		return errors.New("role was required")
+	}
+
+	if user.Account == "" {
+		return errors.New("account was required")
+	}
+
+	if user.Password == "" {
+		return errors.New("password was required")
+	}
+
+	if user.ClassID == 0 {
+		return errors.New("class_id was required")
+	}
+
 	err := u.db.Create(user).Error
 	return err
 }
@@ -47,7 +68,7 @@ func (u *UserService) Update(user *goexam.User) error {
 // Get is 获取用户信息
 func (u *UserService) Get(ID uint) (*goexam.User, error) {
 	user := new(goexam.User)
-	err := u.db.First(user, ID).Error
+	err := u.db.Preload("Class").First(user, ID).Error
 	return user, err
 }
 

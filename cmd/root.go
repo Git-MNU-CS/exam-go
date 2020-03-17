@@ -51,6 +51,7 @@ type (
 	// ServerOps is ..
 	ServerOps struct {
 		TServer TeacherOps `mapstructure:"t_server" yaml:"t_server"`
+		SServer StudentOps `mapstructure:"s_server" yaml:"s_server"`
 	}
 	// ApplicationOps is ...
 	ApplicationOps struct {
@@ -69,7 +70,7 @@ func (opts *ApplicationOps) Load() {
 	}
 }
 
-func loadApplocationOps() *ApplicationOps {
+func loadApplicationOps() *ApplicationOps {
 	opts := &ApplicationOps{}
 	opts.Load()
 	return opts

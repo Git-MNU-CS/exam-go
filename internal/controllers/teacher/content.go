@@ -1,4 +1,4 @@
-package controllers
+package teacher
 
 import (
 	"net/http"
@@ -11,12 +11,16 @@ import (
 // ContentController is
 type ContentController struct {
 	contentSvc goexam.ContentService
+	problemSvc goexam.ProblemService
+	userSvc    goexam.UserService
 }
 
 // NewContentController is
-func NewContentController(contentSvc goexam.ContentService) *ContentController {
+func NewContentController(contentSvc goexam.ContentService, problemSvc goexam.ProblemService, userSvc goexam.UserService) *ContentController {
 	return &ContentController{
 		contentSvc,
+		problemSvc,
+		userSvc,
 	}
 }
 
@@ -27,6 +31,7 @@ func (c *ContentController) Create(ctx echo.Context) error {
 	if err != nil {
 		return ctx.String(http.StatusBadRequest, err.Error())
 	}
+
 	content, err := c.contentSvc.Create(contentRequest)
 	if err != nil {
 		return ctx.String(http.StatusBadRequest, err.Error())

@@ -7,7 +7,7 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/MNU/exam-go/internal/controllers"
+	teacherController "github.com/MNU/exam-go/internal/controllers/teacher"
 
 	"github.com/labstack/echo"
 
@@ -20,16 +20,18 @@ var teacherServerCmd = &cobra.Command{
 	Short: "t-server",
 	Long:  `t-server`,
 	Run: func(cmd *cobra.Command, args []string) {
-		opts := loadApplocationOps()
+		opts := loadApplicationOps()
 		boot := newBootStrap(opts)
-		problemCtrl := controllers.NewProblemController(boot.ProblemSvc)
-		classCtrl := controllers.NewClassController(boot.ClassSvc)
-		userCtrl := controllers.NewUserController(boot.UserSvc)
-		courseCtrl := controllers.NewCourseController(boot.CourseSvc)
-		contentCtrl := controllers.NewContentController(boot.ContentSvc)
+		problemCtrl := teacherController.NewProblemController(boot.ProblemSvc, boot.CourseSvc)
+		classCtrl := teacherController.NewClassController(boot.ClassSvc, boot.CollageSvc)
+		userCtrl := teacherController.NewUserController(boot.UserSvc, boot.ClassSvc)
+		courseCtrl := teacherController.NewCourseController(boot.CourseSvc)
+		contentCtrl := teacherController.NewContentController(boot.ContentSvc, boot.ProblemSvc, boot.UserSvc)
+		collageCtrl := teacherController.NewCollageController(boot.CollageSvc)
 		e := echo.New()
 		e.Use(middleware.Logger())
 		v1 := e.Group("/v1")
+		// down
 		problem := v1.Group("/problem")
 		{
 			problem.GET("/:id", problemCtrl.Get)
@@ -39,6 +41,7 @@ var teacherServerCmd = &cobra.Command{
 			problem.DELETE("/:id", problemCtrl.Delele)
 		}
 
+		// down
 		class := v1.Group("/class")
 		{
 			class.GET("/:id", classCtrl.Get)
@@ -48,6 +51,7 @@ var teacherServerCmd = &cobra.Command{
 			class.GET("/s", classCtrl.GetList)
 		}
 
+		// down 除了登陆
 		user := v1.Group("/user")
 		{
 			user.GET("/:id", userCtrl.Get)
@@ -58,13 +62,14 @@ var teacherServerCmd = &cobra.Command{
 			user.POST("/login", userCtrl.Login)
 		}
 
+		// down
 		course := v1.Group("/course")
 		{
 			course.GET("/:id", courseCtrl.Get)
 			course.GET("/s", courseCtrl.GetList)
 			course.POST("", courseCtrl.Create)
 			course.PUT("/:id", courseCtrl.Update)
-			course.DELETE("/:id", courseCtrl.Delele)
+			course.DELETE("/:id", courseCtrl.Delete)
 		}
 
 		content := v1.Group("/content")
@@ -75,6 +80,17 @@ var teacherServerCmd = &cobra.Command{
 			content.PUT("/:id", contentCtrl.Update)
 			content.DELETE("/:id", contentCtrl.Delete)
 		}
+
+		// down
+		collage := v1.Group("/collage")
+		{
+			collage.GET("/:id", collageCtrl.Get)
+			collage.POST("", collageCtrl.Create)
+			collage.PUT("/:id", collageCtrl.UpdateName)
+			collage.DELETE("/:id", collageCtrl.Delete)
+			collage.GET("/s", collageCtrl.GetList)
+		}
+
 		go func() {
 			address := fmt.Sprintf("%s:%d", opts.Server.TServer.Host, opts.Server.TServer.Port)
 			e.Start(address)

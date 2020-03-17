@@ -1,4 +1,4 @@
-package controllers
+package teacher
 
 import (
 	"net/http"
@@ -28,6 +28,11 @@ func (c *CourseController) Create(ctx echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, "参数错误")
 	}
 	err = c.courseSvc.Create(course)
+
+	if err != nil {
+		return ctx.String(http.StatusInternalServerError, err.Error())
+	}
+
 	return ctx.NoContent(http.StatusOK)
 }
 
@@ -52,7 +57,7 @@ func (c *CourseController) Update(ctx echo.Context) error {
 }
 
 // Delele is
-func (c *CourseController) Delele(ctx echo.Context) error {
+func (c *CourseController) Delete(ctx echo.Context) error {
 	_id := ctx.Param("id")
 	id, err := strconv.ParseUint(_id, 10, 64)
 	err = c.courseSvc.Delete(uint(id))
@@ -68,7 +73,7 @@ func (c *CourseController) Get(ctx echo.Context) error {
 	id, err := strconv.ParseUint(_id, 10, 64)
 	course, err := c.courseSvc.Get(uint(id))
 	if err != nil {
-		return ctx.String(http.StatusBadRequest, "参数错误")
+		return ctx.String(http.StatusBadRequest, err.Error())
 	}
 	return ctx.JSON(http.StatusOK, course)
 }
@@ -83,7 +88,7 @@ func (c *CourseController) GetList(ctx echo.Context) error {
 	}
 	courseList, err := c.courseSvc.GetList(filter)
 	if err != nil {
-		return ctx.String(http.StatusInternalServerError, "服务错误")
+		return ctx.String(http.StatusInternalServerError, err.Error())
 	}
 	return ctx.JSON(http.StatusOK, courseList)
 }

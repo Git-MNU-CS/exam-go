@@ -13,12 +13,19 @@ type (
 	ProblemLevel uint8
 )
 
+var ProblemTypeList = map[ProblemType]string{
+	Program:     "program",
+	Choice:      "choice",
+	FillBlank:   "fill_blank",
+	ShortAnswer: "short_answer",
+}
+
 const (
 	ProblemStatusEnable  ProblemStatus = "enable"
 	ProblemStatusDisable ProblemStatus = "disable"
 
 	// Program is 编程
-	Program ProblemType = "problem"
+	Program ProblemType = "program"
 	// Choice is 选择
 	Choice ProblemType = "choice"
 	//FillBlank is 填空
@@ -27,7 +34,8 @@ const (
 	ShortAnswer ProblemType = "short_answer"
 
 	// One is 1
-	One ProblemLevel = iota
+	_ ProblemLevel = iota
+	One
 	// Two is 2
 	Two
 	// Three is 3

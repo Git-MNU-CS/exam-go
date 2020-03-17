@@ -2,6 +2,7 @@ package services
 
 import (
 	"github.com/MNU/exam-go"
+	"github.com/pkg/errors"
 )
 
 // ProblemService is
@@ -19,8 +20,8 @@ func NewProblemService(db *DB) *ProblemService {
 }
 
 // GetList is 题目列表
-func (p *ProblemService) GetList(filter *goexam.ProblemFilter) (problemList []*goexam.Problem, err error) {
-	problemList = make([]*goexam.Problem, 0)
+func (p *ProblemService) GetList(filter *goexam.ProblemFilter) ([]*goexam.Problem, error) {
+	problemList := make([]*goexam.Problem, 0)
 	problem := new(goexam.Problem)
 	query := p.db.Model(problem).Preload("Course")
 	if filter.PrefixKey != "" {
@@ -29,19 +30,41 @@ func (p *ProblemService) GetList(filter *goexam.ProblemFilter) (problemList []*g
 	if filter.Page != 0 {
 		query = query.Offset(filter.Page * filter.Limit)
 	}
-	err = query.Limit(filter.Limit).Find(&problemList).Error
+	err := query.Limit(filter.Limit).Find(&problemList).Error
 	return problemList, err
 }
 
 // Create is 添加题目
 func (p *ProblemService) Create(problem *goexam.Problem) error {
+	if problem.CourseID == 0 {
+		return errors.New("course_id was required")
+	}
+
+	if problem.Level == 0 {
+		return errors.New("level was required")
+	}
+
+	if problem.Name == "" {
+		return errors.New("name was required")
+	}
+
+	if _, ok := goexam.ProblemTypeList[problem.Type]; !ok {
+		return errors.New("type not allow")
+	}
+
+	if problem.Describe == "" {
+		return errors.New("describe was required")
+	}
+
+	problem.Status = goexam.ProblemStatusEnable
+
 	err := p.db.Create(problem).Error
 	return err
 }
 
 // Update is 编辑题目
 func (p *ProblemService) Update(problem *goexam.Problem) error {
-	err := p.db.Updates(problem).Error
+	err := p.db.Model(&goexam.Problem{}).Updates(problem).Error
 	return err
 }
 

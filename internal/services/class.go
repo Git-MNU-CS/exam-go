@@ -2,6 +2,7 @@ package services
 
 import (
 	"github.com/MNU/exam-go"
+	"github.com/pkg/errors"
 )
 
 // ClassService is
@@ -20,6 +21,18 @@ func NewClassService(db *DB) *ClassService {
 
 // Create is
 func (c *ClassService) Create(class *goexam.Class) error {
+	if class.Name == "" {
+		return errors.New("name must required")
+	}
+
+	if class.Level == 0 {
+		return errors.New("level must required")
+	}
+
+	if class.CollageID == 0 {
+		return errors.New("collage id must required")
+	}
+
 	err := c.db.Create(class).Error
 	return err
 }
@@ -46,6 +59,13 @@ func (c *ClassService) Get(id uint) (*goexam.Class, error) {
 // GetList is
 func (c *ClassService) GetList(classFilter *goexam.ClassFilter) ([]*goexam.Class, error) {
 	classes := make([]*goexam.Class, 0)
-	err := c.db.Limit(classFilter.Limit).Find(&classes).Error
+
+	query := c.db.DB
+	classFilter.LoadDefault()
+	if classFilter.Page != 0 {
+		query.Offset(classFilter.Page * classFilter.Limit)
+	}
+
+	err := query.Limit(classFilter.Limit).Find(&classes).Error
 	return classes, err
 }

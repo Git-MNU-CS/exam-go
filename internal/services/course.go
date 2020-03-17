@@ -2,6 +2,7 @@ package services
 
 import (
 	"github.com/MNU/exam-go"
+	"github.com/pkg/errors"
 )
 
 // CourseService is
@@ -20,6 +21,9 @@ func NewCourseService(db *DB) *CourseService {
 
 // Create is
 func (c *CourseService) Create(course *goexam.Course) (err error) {
+	if course.Name == "" {
+		return errors.New("course name must required")
+	}
 	err = c.db.Create(course).Error
 	return err
 }

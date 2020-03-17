@@ -6,29 +6,32 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-// ContentStatus is 比赛状态
-type ContentStatus string
-
 const (
 	// PrivateContent is 私有
-	PrivateContent ContentStatus = "private"
+	PrivateContent = "private"
 	// PublicContent is 公开
-	PublicContent ContentStatus = "public"
+	PublicContent = "public"
+
+	ContentStatusEnable  = "enable"
+	ContentStatusDisable = "disable"
 )
 
 type (
 	// Content is 比赛
 	Content struct {
 		gorm.Model
-		Title      string         `json:"title" gorm:"title"`
-		Describe   string         `json:"describe" gorm:"describe"`
-		StartTime  time.Time      `json:"start_time" gorm:"start_time"`
-		EndTime    time.Time      `json:"end_time" gorm:"end_time"`
-		Status     ContentStatus  `json:"status" gorm:"status"`
-		ProblemIds []*uint        `json:"problem_ids" gorm:"-"`
-		Problems   []*Problem     `json:"problems" gorm:"-"`
-		AuthIds    []*uint        `json:"auth_ids" gorm:"-"`
-		Auths      []*ContentAuth `json:"auths" gorm:"-"`
+		Title          string         `json:"title" gorm:"title"`
+		Describe       string         `json:"describe" gorm:"describe"`
+		StartTime      time.Time      `json:"-" gorm:"start_time"`
+		StartTimeStamp int64          `json:"start_time_stamp" gorm:"-"`
+		EndTime        time.Time      `json:"-" gorm:"end_time"`
+		EndTimeStamp   int64          `json:"end_time_stamp" gorm:"-"`
+		Status         string         `json:"status" gorm:"status"`
+		OpenDegree     string         `gorm:"column:open_degree" json:"open_degree"`
+		ProblemIds     []uint         `json:"problem_ids" gorm:"-"`
+		Problems       []*Problem     `json:"problems" gorm:"-"`
+		UserIDs        []uint         `json:"user_ids" gorm:"-"`
+		ContentUsers   []*ContentUser `json:"users" gorm:"-"`
 	}
 	// ContentFilter is
 	ContentFilter struct {

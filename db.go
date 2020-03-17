@@ -24,6 +24,3 @@ type DB struct {
 	// ticker 用于keep alive的定时器
 	ticker *time.Ticker
 }
-
-type DBService interface {
-}

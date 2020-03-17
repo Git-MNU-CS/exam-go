@@ -1,4 +1,4 @@
-package controllers
+package teacher
 
 import (
 	"net/http"
@@ -11,12 +11,14 @@ import (
 // ProblemController is
 type ProblemController struct {
 	problemSvc goexam.ProblemService
+	courseSvc  goexam.CourseService
 }
 
 // NewProblemController is
-func NewProblemController(problemSvc goexam.ProblemService) *ProblemController {
+func NewProblemController(problemSvc goexam.ProblemService, courseSvc goexam.CourseService) *ProblemController {
 	return &ProblemController{
 		problemSvc,
+		courseSvc,
 	}
 }
 
@@ -27,6 +29,13 @@ func (p *ProblemController) Create(ctx echo.Context) error {
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, "参数错误")
 	}
+
+	_, err = p.courseSvc.Get(problem.CourseID)
+
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, "course not found")
+	}
+
 	err = p.problemSvc.Create(problem)
 	if err != nil {
 		return ctx.String(http.StatusInternalServerError, err.Error())
@@ -36,11 +45,19 @@ func (p *ProblemController) Create(ctx echo.Context) error {
 
 // Update is
 func (p *ProblemController) Update(ctx echo.Context) error {
+	_id := ctx.Param("id")
+	id, err := strconv.ParseUint(_id, 10, 64)
+
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, "ID不存在")
+	}
+
 	problem := new(goexam.Problem)
-	err := ctx.Bind(problem)
+	err = ctx.Bind(problem)
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, "参数错误")
 	}
+	problem.ID = uint(id)
 	err = p.problemSvc.Update(problem)
 	return ctx.JSON(http.StatusOK, "成功")
 }

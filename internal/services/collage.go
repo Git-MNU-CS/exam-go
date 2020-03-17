@@ -3,21 +3,26 @@ package services
 import (
 	"github.com/MNU/exam-go"
 	"github.com/labstack/echo"
+	"github.com/pkg/errors"
 )
 
 type CollageService struct {
-	db goexam.DB
+	db *DB
 }
 
 var _ goexam.CollageService = &CollageService{}
 
-func NewCollageService(db goexam.DB) *CollageService {
+func NewCollageService(db *DB) *CollageService {
 	return &CollageService{
 		db: db,
 	}
 }
 
 func (c *CollageService) Create(ctx echo.Context, collage *goexam.Collage) (*goexam.Collage, error) {
+
+	if collage.Name == "" {
+		return nil, errors.New("collage name must require")
+	}
 	err := c.db.Create(collage).Error
 
 	return collage, err
@@ -52,6 +57,12 @@ func (c *CollageService) GetList(ctx echo.Context, filter *goexam.CollageFilter)
 		query = query.Limit(filter.Limit)
 	}
 
-	err := query.Find(list).Error
+	err := query.Find(&list).Error
 	return list, err
+}
+
+func (c *CollageService) Delete(ctx echo.Context, ID uint) error {
+	err := c.db.Where("id = ?", ID).Delete(&goexam.Collage{}).Error
+
+	return err
 }

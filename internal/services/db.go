@@ -1,7 +1,6 @@
 package services
 
 import (
-	"github.com/MNU/exam-go"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -18,8 +17,6 @@ type DatabaseOptions struct {
 	MaxIdles  int    `yaml:"max_idles" mapstructure:"max_idles"`
 	MaxOpens  int    `yaml:"max_opens" mapstructure:"max_opens"`
 }
-
-var _ goexam.DBService = &DB{}
 
 // DB is DB
 type DB struct {

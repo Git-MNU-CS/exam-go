@@ -1,6 +1,6 @@
 -- +goose Up
 -- SQL in this section is executed when the migration is applied.
-CREATE TABLE IF NOT EXISTS `content_authorities` (
+CREATE TABLE IF NOT EXISTS `content_users` (
   `id` int(11) NOT NULL,
   `content_id` int(11) NOT NULL COMMENT '考试id ',
   `user_id` int(11) NOT NULL COMMENT '用户表ID',
@@ -11,4 +11,4 @@ CREATE TABLE IF NOT EXISTS `content_authorities` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 -- +goose Down
 -- SQL in this section is executed when the migration is rolled back.
-DROP TABLE IF EXISTS `content_authorities`;
+DROP TABLE IF EXISTS `content_users`;

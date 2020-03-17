@@ -23,4 +23,5 @@ type CollageService interface {
 	GetByID(ctx echo.Context, ID uint) (*Collage, error)
 	ChangeName(ctx echo.Context, ID uint, name string) (*Collage, error)
 	GetList(ctx echo.Context, filter *CollageFilter) ([]*Collage, error)
+	Delete(ctx echo.Context, ID uint) error
 }

@@ -8,10 +8,10 @@ type (
 	// Class is
 	Class struct {
 		gorm.Model
-		Name      string `json:"name" gorm:"column:name"`
-		Level     uint8  `json:"level" gorm:"column:level"`
-		Status    string `json:"status" gorm:"column:status"`
-		CollageID uint   `json:"collage_id" gorm:"column:collage_id"`
+		Name      string   `json:"name" gorm:"column:name"`
+		Level     uint8    `json:"level" gorm:"column:level"`
+		CollageID uint     `json:"collage_id" gorm:"column:collage_id"`
+		Collage   *Collage `json:"collage" gorm:"-"`
 	}
 	// ClassFilter is
 	ClassFilter struct {

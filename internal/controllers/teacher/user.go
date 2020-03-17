@@ -1,4 +1,4 @@
-package controllers
+package teacher
 
 import (
 	"net/http"
@@ -11,12 +11,14 @@ import (
 // UserController is return UserController
 type UserController struct {
 	goexam.UserService
+	goexam.ClassService
 }
 
 // NewUserController is return UserController
-func NewUserController(userSvc goexam.UserService) *UserController {
+func NewUserController(userSvc goexam.UserService, classSvc goexam.ClassService) *UserController {
 	return &UserController{
 		userSvc,
+		classSvc,
 	}
 }
 
@@ -32,6 +34,13 @@ func (uc *UserController) Create(ctx echo.Context) error {
 	if err != nil {
 		return ctx.String(http.StatusBadRequest, "参数错误")
 	}
+
+	_, err = uc.ClassService.Get(user.ClassID)
+
+	if err != nil {
+		return ctx.String(http.StatusBadRequest, "class not found")
+	}
+
 	err = uc.UserService.Create(user)
 	if err != nil {
 		return ctx.String(http.StatusInternalServerError, "失败")
