@@ -40,7 +40,7 @@ func (u *UserFilter) loadDefault() {
 
 // UserService is
 type UserService interface {
-	Login(username string, password string) (err error)
+	Login(account string, password string) (err error)
 	Create(user *User) (err error)
 	Delete(id uint) (err error)
 	Update(user *User) (err error)

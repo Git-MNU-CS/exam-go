@@ -20,9 +20,9 @@ func NewUserService(db *DB) *UserService {
 }
 
 // Login is 用户登陆
-func (u *UserService) Login(username string, password string) error {
+func (u *UserService) Login(account string, password string) error {
 	user := new(goexam.User)
-	err := u.db.Where("username = ? and password = ?", username, password).Find(user).Error
+	err := u.db.Where("account = ? and password = ?", account, password).Find(user).Error
 	return err
 }
 

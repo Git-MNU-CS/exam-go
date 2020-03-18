@@ -28,6 +28,7 @@ var teacherServerCmd = &cobra.Command{
 		courseCtrl := teacherController.NewCourseController(boot.CourseSvc)
 		contentCtrl := teacherController.NewContentController(boot.ContentSvc, boot.ProblemSvc, boot.UserSvc)
 		collageCtrl := teacherController.NewCollageController(boot.CollageSvc)
+		recordCtrl := teacherController.NewRecordController(boot.UserSvc, boot.ProblemSvc, boot.ContentSvc, boot.RecordSvc)
 		e := echo.New()
 		e.Use(middleware.Logger())
 		v1 := e.Group("/v1")
@@ -89,6 +90,12 @@ var teacherServerCmd = &cobra.Command{
 			collage.PUT("/:id", collageCtrl.UpdateName)
 			collage.DELETE("/:id", collageCtrl.Delete)
 			collage.GET("/s", collageCtrl.GetList)
+		}
+
+		record := v1.Group("/record")
+		{
+			record.GET("/:id", recordCtrl.Get)
+			record.GET("/s", recordCtrl.GetList)
 		}
 
 		go func() {

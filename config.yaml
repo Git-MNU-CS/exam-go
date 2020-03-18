@@ -15,6 +15,9 @@ server:
   t_server:
     host: 'localhost'
     port: '10'
+  s_server:
+    host: 'localhost'
+    port: '11'
 
 grpc:
   port: "1213"
