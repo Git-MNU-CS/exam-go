@@ -5,10 +5,6 @@ cloud.google.com/go v0.37.4/go.mod h1:NHPJ89PdicEuT9hdPXMROBD91xc5uRDxsMtSB16k7h
 github.com/BurntSushi/toml v0.3.1 h1:WXkYYl6Yr3qBf1K79EBnL4mak0OimBfB0XUf9Vl28OQ=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
-github.com/Robertzyp/testAction v0.0.0-20191129051007-3019b497ee21 h1:UNvn8weZx0nHrufte6rvUx4iXIhNaVWa6lNGYFGgTCU=
-github.com/Robertzyp/testAction v0.0.0-20191129051007-3019b497ee21/go.mod h1:/E4jcr8gDYtziPgtlFB7vZ5Y/WRLxOAXIryrGl7Hl+A=
-github.com/Robertzyp/testAction v1.0.0 h1:+s9K1B16Tm1azO/EUVYExQKGMF1GYEaIADodCeyGw08=
-github.com/Robertzyp/testAction v1.0.0/go.mod h1:/E4jcr8gDYtziPgtlFB7vZ5Y/WRLxOAXIryrGl7Hl+A=
 github.com/Shopify/sarama v1.19.0/go.mod h1:FVkBWblsNy7DGZRfXLU0O9RCGt5g3g3yEuWXgklEdEo=
 github.com/Shopify/toxiproxy v2.1.4+incompatible/go.mod h1:OXgGpZ6Cli1/URJOF1DMxUHB2q5Ap20/P/eIdh4G0pI=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=

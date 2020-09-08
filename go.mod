@@ -1,9 +1,8 @@
 module github.com/MNU/exam-go
 
-go 1.12
+go 1.15
 
 require (
-	github.com/Robertzyp/testAction v1.0.0 // indirect
 	github.com/jinzhu/gorm v1.9.11
 	github.com/labstack/echo v3.3.10+incompatible
 	github.com/labstack/gommon v0.3.0 // indirect
