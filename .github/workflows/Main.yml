@@ -38,6 +38,7 @@ jobs:
         echo '${{ secrets.SSH }}' > ~/.ssh/id_rsa &&
         chmod 600 ~/.ssh/id_rsa &&
         touch ~/.ssh/known_hosts &&
+        chmod 777 ~/.ssh/known_hosts &&
         ssh-keygen -R '{{ secrets.TIP }}'
     - name: Push
       run: scp exam '${{ secrets.THOST }}'
