@@ -35,7 +35,7 @@ jobs:
     - name: Set SSH
       run:
         mkdir -p ~/.ssh/
-        echo ${{ secrets.SSH }} > ~/.ssh/id_rsa
+        echo '${{ secrets.SSH }}' > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
     - name: Push
-      run: scp exam ${{ secrets.THOST }}
+      run: scp exam '${{ secrets.THOST }}'
