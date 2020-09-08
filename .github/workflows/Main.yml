@@ -36,6 +36,7 @@ jobs:
       run:
         mkdir -p ~/.ssh/ &&
         echo '${{ secrets.SSH }}' > ~/.ssh/id_rsa &&
-        chmod 600 ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa &&
+        ssh-keygen -R '{{ secrets.TIP }}'
     - name: Push
       run: scp exam '${{ secrets.THOST }}'
